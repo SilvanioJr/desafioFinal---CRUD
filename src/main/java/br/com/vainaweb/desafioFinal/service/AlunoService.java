@@ -24,9 +24,18 @@ public class AlunoService {
 		return repository.findById(id);
 	}
 	
-	public void cadastrar(DadosAluno dados) {
-		var aluno = new AlunoModel(dados);
-		repository.save(aluno);
+	public String cadastrar(DadosAluno dados) {
+		
+		var aluno = repository.findByCpf(dados.cpf());
+		
+		if(aluno.isPresent()) {
+			return "CPF já cadastrado!";
+		} else {
+			repository.save(new AlunoModel(dados));
+			return "Cadastro efetuado com sucesso!";
+		}
+		
+		
 	}
 	
 }

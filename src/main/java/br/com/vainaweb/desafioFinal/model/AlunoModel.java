@@ -1,6 +1,9 @@
 package br.com.vainaweb.desafioFinal.model;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import br.com.vainaweb.desafioFinal.DTO.DadosAluno;
+import br.com.vainaweb.desafioFinal.DTO.DadosAtualizados;
 import br.com.vainaweb.desafioFinal.enums.Curso;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -9,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +33,11 @@ public class AlunoModel {
 	
 	private String nome;
 	
+	@Email
 	@Column(unique = true)
 	private String email;
 	
+	@CPF
 	@Column(unique = true)
 	private String cpf;
 	
@@ -47,6 +54,13 @@ public class AlunoModel {
 		this.cpf = dados.cpf();
 		this.telefone = dados.telefone();
 		this.curso = dados.curso();
+		this.endereco = new Endereco(dados.endereco().cep(), dados.endereco().logradouro(), dados.endereco().bairro(), dados.endereco().cidade(), dados.endereco().uf(), dados.endereco().complemento(), dados.endereco().numero());
+
+	}
+
+	public void atualizarInfo(@Valid DadosAtualizados dados) {
+		this.nome = dados.nome() != null ? dados.nome() : this.nome;
+		this.email = dados.email() != null ? dados.email() : this.email;
 
 	}
 
