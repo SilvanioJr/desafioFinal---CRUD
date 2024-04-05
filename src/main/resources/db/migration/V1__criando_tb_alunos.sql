@@ -1,0 +1,8 @@
+CREATE TABLE tb_alunos(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    CPF VARCHAR(15) NOT NULL UNIQUE,
+    telefone varchar(13) NOT NULL,
+    curso INT
+);
